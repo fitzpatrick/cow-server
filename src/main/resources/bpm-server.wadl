@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://wadl.dev.java.net/2009/02">
+   <doc xml:lang="en" title="simplec2-bpm"/>
+   <resources base="http://localhost:8084/bpm-server">
+      <resource path="hello" id="hello">
+         <doc xml:lang="en" title="hello"/>
+         <param name="name" type="xs:string" required="false" default="" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+         <method name="GET" id="Method 1">
+            <doc xml:lang="en" title="Method 1"/>
+            <request/>
+            <response status="200">
+               <representation mediaType="text/plain" element="data"/>
+            </response>
+         </method>
+      </resource>
+      <resource path="deployments" id="deployments">
+         <doc xml:lang="en" title="deployments"/>
+         <resource path="sc2" id="sc2">
+            <doc xml:lang="en" title="sc2"/>
+            <method name="POST" id="Method 1">
+               <doc xml:lang="en" title="Method 1"/>
+               <request>
+                  <param name="name" type="xs:string" required="false" default="" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+                  <representation mediaType="application/xml" element="html"/>
+               </request>
+               <response status="">
+                  <representation mediaType="application/xml" element="html"/>
+               </response>
+               <response status="404 406 500">
+                  <representation mediaType="text/html" element="html"/>
+               </response>
+               <response status="200">
+                  <representation mediaType="text/plain" element="data"/>
+                  <representation mediaType="application/xml" element="ser:deployment" xmlns:ser="http://simplec2.mitre.org/bpm/schema/service"/>
+               </response>
+            </method>
+         </resource>
+         <resource path="native" id="native">
+            <doc xml:lang="en" title="native"/>
+            <method name="POST" id="Method 1">
+               <doc xml:lang="en" title="Method 1"/>
+               <request>
+                  <param name="name" type="xs:string" required="false" default="" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+                  <representation mediaType="application/xml" element="html"/>
+               </request>
+               <response status="">
+                  <representation mediaType="application/xml" element="html"/>
+               </response>
+               <response status="500">
+                  <representation mediaType="text/html" element="html"/>
+               </response>
+               <response status="200">
+                  <representation mediaType="text/plain" element="data"/>
+               </response>
+            </method>
+         </resource>
+         <resource path="{id}" id="id">
+            <doc xml:lang="en" title="id"/>
+            <param name="id" default="id" type="xs:string" required="false" style="template" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+            <method name="DELETE" id="Delete Deployment">
+               <doc xml:lang="en" title="Delete Deployment"/>
+               <request/>
+               <response status="404 500">
+                  <representation mediaType="text/html" element="html"/>
+               </response>
+            </method>
+            <method name="GET" id="Get Deployment">
+               <doc xml:lang="en" title="Get Deployment"/>
+               <request/>
+               <response status="404 500">
+                  <representation mediaType="text/html" element="html"/>
+               </response>
+               <response status="200">
+                  <representation mediaType="application/xml" element="ser:deployment" xmlns:ser="http://simplec2.mitre.org/bpm/schema/service"/>
+               </response>
+            </method>
+         </resource>
+         <method name="GET" id="Method 1">
+            <doc xml:lang="en" title="Method 1"/>
+            <request/>
+            <response status="404">
+               <representation mediaType="text/html" element="html"/>
+            </response>
+            <response status="200">
+               <representation mediaType="application/xml" element="ser:deployments" xmlns:ser="http://simplec2.mitre.org/bpm/schema/service"/>
+            </response>
+         </method>
+      </resource>
+      <resource path="processes/{key}" id="processes">
+         <doc xml:lang="en" title="processes"/>
+         <param name="key" type="xs:string" required="false" default="" style="template" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+         <method name="GET" id="Native">
+            <doc xml:lang="en" title="Native"/>
+            <request>
+               <param name="format" default="native" type="xs:string" required="false" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+            </request>
+            <response status="500">
+               <representation mediaType="text/html" element="html"/>
+            </response>
+            <response status="200">
+               <representation mediaType="application/xml" element="jpdl:process" xmlns:jpdl="http://jbpm.org/4.0/jpdl"/>
+            </response>
+         </method>
+         <method name="GET" id="Sc2">
+            <doc xml:lang="en" title="Sc2"/>
+            <request>
+               <param name="format" type="xs:string" required="false" default="" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+            </request>
+            <response status="200">
+               <representation mediaType="application/xml" element="mod:process" xmlns:mod="http://simplec2.mitre.org/bpm/schema/model"/>
+            </response>
+            <response status="404 406 500">
+               <representation mediaType="text/html" element="html"/>
+            </response>
+         </method>
+      </resource>
+      <resource path="tasks" id="tasks">
+         <doc xml:lang="en" title="tasks"/>
+         <resource path="active" id="active">
+            <doc xml:lang="en" title="active"/>
+            <resource path="{task}" id="task">
+               <doc xml:lang="en" title="task"/>
+               <param name="task" default="task" type="xs:string" required="false" style="template" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+               <method name="GET" id="Get Task">
+                  <doc xml:lang="en" title="Get Task"/>
+                  <request/>
+                  <response status="406 500">
+                     <representation mediaType="text/html" element="html"/>
+                  </response>
+                  <response status="200">
+                     <representation mediaType="application/xml" element="ser:task" xmlns:ser="http://simplec2.mitre.org/bpm/schema/service"/>
+                  </response>
+               </method>
+               <method name="DELETE" id="Complete Task">
+                  <doc xml:lang="en" title="Complete Task"/>
+                  <request>
+                     <param name="outcome" type="xs:string" required="false" default="" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+                  </request>
+               </method>
+            </resource>
+            <method name="GET" id="ByAssignee">
+               <doc xml:lang="en" title="ByAssignee"/>
+               <request>
+                  <param name="assignee" type="xs:string" required="false" default="" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+               </request>
+               <response status="200">
+                  <representation mediaType="application/xml" element="ser:tasks" xmlns:ser="http://simplec2.mitre.org/bpm/schema/service"/>
+               </response>
+            </method>
+            <method name="GET" id="all">
+               <doc xml:lang="en" title="all"/>
+               <request/>
+               <response status="500">
+                  <representation mediaType="text/html" element="html"/>
+               </response>
+               <response status="200">
+                  <representation mediaType="application/xml" element="ser:tasks" xmlns:ser="http://simplec2.mitre.org/bpm/schema/service"/>
+               </response>
+            </method>
+         </resource>
+         <resource path="history" id="history">
+            <doc xml:lang="en" title="history"/>
+            <resource path="{task}" id="task">
+               <doc xml:lang="en" title="task"/>
+               <param name="task" default="task" type="xs:string" required="false" style="template" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+               <method name="GET" id="Method 1">
+                  <doc xml:lang="en" title="Method 1"/>
+                  <request/>
+               </method>
+            </resource>
+         </resource>
+      </resource>
+      <resource path="processInstances" id="processInstances">
+         <doc xml:lang="en" title="processInstances"/>
+         <resource path="active" id="active">
+            <doc xml:lang="en" title="active"/>
+            <resource path="{id}" id="id">
+               <doc xml:lang="en" title="id"/>
+               <param name="id" default="id" type="xs:string" required="false" style="template" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+               <method name="GET" id="get">
+                  <doc xml:lang="en" title="get"/>
+                  <request/>
+                  <response status="404 500">
+                     <representation mediaType="text/html" element="html"/>
+                  </response>
+                  <response status="200">
+                     <representation mediaType="application/xml" element="ser:processInstance" xmlns:ser="http://simplec2.mitre.org/bpm/schema/service"/>
+                  </response>
+               </method>
+               <method name="DELETE" id="delete">
+                  <doc xml:lang="en" title="delete"/>
+                  <request/>
+                  <response status="404">
+                     <representation mediaType="text/html" element="html"/>
+                  </response>
+                  <response status="204">
+                     <representation mediaType="" element="data"/>
+                  </response>
+               </method>
+            </resource>
+            <method name="GET" id="get all">
+               <doc xml:lang="en" title="get all"/>
+               <request/>
+               <response status="200">
+                  <representation mediaType="application/xml" element="ser:processInstances" xmlns:ser="http://simplec2.mitre.org/bpm/schema/service"/>
+               </response>
+            </method>
+            <method name="POST" id="start execution">
+               <doc xml:lang="en" title="start execution"/>
+               <request>
+                  <representation mediaType="application/xml" element="data"/>
+               </request>
+               <response status="">
+                  <representation mediaType="application/xml" element="data"/>
+               </response>
+               <response status="201">
+                  <representation mediaType="" element="data"/>
+                  <representation mediaType="" element="data"/>
+                  <representation mediaType="" element="data"/>
+                  <representation mediaType="" element="data"/>
+               </response>
+            </method>
+         </resource>
+         <resource path="history" id="history">
+            <doc xml:lang="en" title="history"/>
+         </resource>
+      </resource>
+      <resource path="processDefinitions" id="processDefinitions">
+         <doc xml:lang="en" title="processDefinitions"/>
+         <resource path="{id}" id="id">
+            <doc xml:lang="en" title="id"/>
+            <param name="id" default="id" type="xs:string" required="false" style="template" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+            <method name="GET" id="Method 1">
+               <doc xml:lang="en" title="Method 1"/>
+               <request/>
+               <response status="200">
+                  <representation mediaType="application/xml" element="ser:processDefinition" xmlns:ser="http://simplec2.mitre.org/bpm/schema/service"/>
+               </response>
+            </method>
+         </resource>
+         <method name="GET" id="get all">
+            <doc xml:lang="en" title="get all"/>
+            <request/>
+            <response status="404 500">
+               <representation mediaType="text/html" element="html"/>
+            </response>
+            <response status="200">
+               <representation mediaType="application/xml" element="ser:processDefinitions" xmlns:ser="http://simplec2.mitre.org/bpm/schema/service"/>
+            </response>
+         </method>
+      </resource>
+   </resources>
+</application>

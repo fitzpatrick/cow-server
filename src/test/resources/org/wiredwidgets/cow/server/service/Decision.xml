@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process key="v2-decision" name="v2-decision"
+		xsi:schemaLocation="http://www.wiredwidgets.org/cow/server/schema/model-v2 
+		file:/C:/Projects/SimpleC2/NetBeansProjects/server/bpm-api/src/main/xsd/sc2-bpm-model-v2.xsd" 
+		xmlns="http://www.wiredwidgets.org/cow/server/schema/model-v2" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <decision name="decision">
+        <task name="decisiontask" />
+        <option name="option1">
+            <task name="optionTask1" />
+        </option>
+        <option name="option2">
+            <task name="optionTask2" />
+        </option>
+    </decision>
+</process>
